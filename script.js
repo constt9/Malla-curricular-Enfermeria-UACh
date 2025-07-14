@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Aquí van los datos de tu malla, directamente en el script
+    // Datos completos de la malla curricular para los 5 años
     const mallaData = {
       "Primer Año": {
         "Primer Semestre": [
@@ -279,12 +279,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para renderizar la malla
     function renderMalla() {
         mallaContainer.innerHTML = ''; // Limpiar el contenedor antes de renderizar
-        for (const year in mallaData) { // Usamos mallaData en lugar de data
+        for (const year in mallaData) {
             const yearDiv = document.createElement('div');
             yearDiv.classList.add('year-container');
             yearDiv.innerHTML = `<h2>${year}</h2>`;
 
-            for (const semester in mallaData[year]) { // Usamos mallaData en lugar de data
+            for (const semester in mallaData[year]) {
                 const semesterDiv = document.createElement('div');
                 semesterDiv.classList.add('semester-container');
                 semesterDiv.innerHTML = `<h3>${semester}</h3>`;
@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const courseListDiv = document.createElement('div');
                 courseListDiv.classList.add('course-list');
 
-                mallaData[year][semester].forEach(course => { // Usamos mallaData en lugar de data
+                mallaData[year][semester].forEach(course => {
                     const courseItem = document.createElement('div');
                     courseItem.classList.add('course-item');
                     courseItem.setAttribute('data-code', course.codigo);
@@ -304,11 +304,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else {
                         // Verificar si el curso está bloqueado (tiene prerrequisitos no completados)
                         const isLocked = course.prerequisitos.some(prereq => {
-                            // Manejar el caso especial de "APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE"
+                            // Manejo especial para el requisito de "APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE"
+                            // Por ahora, si un curso tiene este texto como prerrequisito, se considerará bloqueado
+                            // hasta que se desarrolle una lógica más avanzada para contar los 42 cursos.
                             if (prereq.includes("APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE")) {
-                                // Aquí podrías implementar una lógica más compleja para contar cursos
-                                // Por ahora, asumimos que no se puede completar si tiene ese prerequisito y no todos los demás están listos.
-                                return true; // Por defecto, bloqueado si tiene este prerequisito complejo
+                                return true; // Lo bloquea por defecto si tiene este requisito complejo
                             }
                             return !completedCourses.has(prereq);
                         });
@@ -339,5 +339,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    renderMalla(); // Renderizar la malla inicialmente
+    renderMalla(); // Renderizar la malla inicialmente al cargar la página
 });
