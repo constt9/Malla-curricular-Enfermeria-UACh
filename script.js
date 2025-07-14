@@ -1,4 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Definición de los prerrequisitos explícitos para ENFA205-20
+    const prerequisitosENFA205_20 = [
+        "ANAT060-20", "BIMI055-20", "CIDI067-20", "DYRE070-14", "ENFA051-20", "ESEN062-20", "QUIM064-20",
+        "CIDI081-20", "BIOQ077-20", "ELEC12", // Usamos ELEC12 en lugar de DYRE027-20 para consistencia con la malla actual
+        "ENFA070-20", "FISL075-20", "PSIQ080-20", "SALP083-20", "SALP085-20",
+        "ENFA092-20", "ENFA096-20", "HIPA093-24", "PRST091-22", "PSIQ097-20",
+        "ENFA098-20", "ENFM090-20", "ESTD093-20", "FARM099-20", "SALP095-20",
+        "ENFA103-20", "ESEN125-20", "MEDI120-20", "PSIQ105-20", "QFAR108-22",
+        "ELECT114", "ENFA175-20", "ENFM170-20", "ESEN180-20", "ESTD172-20", "PEDI173-23", // PEDI173-23 está en tu lista para ENFA205-20
+        "ENFA185-20", "ENFA188-20", "SALP190-20", "ENFA192-20", "ENFA194-20", "SALP195-20"
+    ];
+
+    // Definición de los prerrequisitos explícitos para ENFA207-20
+    const prerequisitosENFA207_20 = [
+        "ANAT060-20", "BIMI055-20", "CIDI067-20", "DYRE070-14", "ENFA051-20", "ESEN062-20", "QUIM064-20",
+        "CIDI081-20", "BIOQ077-20", "ELEC12", // Usamos ELEC12 en lugar de DYRE027-20 para consistencia con la malla actual
+        "ENFA070-20", "FISL075-20", "PSIQ080-20", "SALP083-20", "SALP085-20",
+        "ENFA092-20", "ENFA096-20", "HIPA093-24", "PRST091-22", "PSIQ097-20",
+        "ENFA098-20", "ENFM090-20", "ESTD093-20", "FARM099-20", "SALP095-20",
+        "ENFA103-20", "ESEN125-20", "MEDI120-20", "PSIQ105-20", "QFAR108-22",
+        "ELECT114", "ENFA175-20", "ENFM170-20", "ESEN180-20", "ESTD172-20",
+        // Aquí no incluiste PEDI173-23 para ENFA207-20 según tu lista, a diferencia de ENFA205-20.
+        "ENFA185-20", "ENFA188-20", "SALP190-20", "ENFA192-20", "ENFA194-20", "SALP195-20"
+    ];
+
+
     // Datos completos de la malla curricular para los 5 años, organizados según tu imagen
     const mallaData = {
       "Primer Año": {
@@ -71,13 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
         "Noveno Semestre": [
           { "codigo": "ELECT112", "nombre": "OPTATIVO DE PROFUNDIZACIÓN I", "prerequisitos": [] },
           { "codigo": "ENFA204-20", "nombre": "AVANCE DE INVESTIGACIÓN", "prerequisitos": ["ENFA194-20"] },
-          // CAMBIO REALIZADO AQUÍ: ENFA205-20 con nuevo prerrequisito
-          { "codigo": "ENFA205-20", "nombre": "GESTIÓN DEL CUIDADO EN ATENCIÓN AMBULATORIA", "prerequisitos": ["TODOS_HASTA_OCTAVO"] }
+          // Prerrequisitos para ENFA205-20, ahora explícitos
+          { "codigo": "ENFA205-20", "nombre": "GESTIÓN DEL CUIDADO EN ATENCIÓN AMBULATORIA", "prerequisitos": prerequisitosENFA205_20 }
         ],
         "Décimo Semestre": [
           { "codigo": "ELECT116", "nombre": "OPTATIVO DE PROFUNDIZACIÓN II", "prerequisitos": [] },
-          // CAMBIO REALIZADO AQUÍ: ENFA207-20 con nuevo prerrequisito
-          { "codigo": "ENFA207-20", "nombre": "GESTIÓN DEL CUIDADO EN ATENCIÓN HOSPITALARIA", "prerequisitos": ["TODOS_HASTA_OCTAVO"] },
+          // Prerrequisitos para ENFA207-20, ahora explícitos
+          { "codigo": "ENFA207-20", "nombre": "GESTIÓN DEL CUIDADO EN ATENCIÓN HOSPITALARIA", "prerequisitos": prerequisitosENFA207_20 },
           { "codigo": "ESEN298-20", "nombre": "TRABAJO DE INVESTIGACIÓN", "prerequisitos": ["ENFA204-20"] }
         ]
       }
@@ -85,32 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const mallaContainer = document.getElementById('malla-container');
     let completedCourses = new Set(); // Para almacenar los códigos de cursos completados
-
-    // Función auxiliar para obtener todos los códigos de cursos hasta el 8vo semestre
-    function getAllCoursesUpToEighthSemester() {
-        const courses = new Set();
-        const years = ["Primer Año", "Segundo Año", "Tercer Año", "Cuarto Año"];
-        const semestersInOrder = {
-            "Primer Año": ["Primer Semestre", "Segundo Semestre"],
-            "Segundo Año": ["Tercer Semestre", "Cuarto Semestre"],
-            "Tercer Año": ["Quinto Semestre", "Sexto Semestre"],
-            "Cuarto Año": ["Septimo Semestre", "Octavo Semestre"]
-        };
-
-        for (const year of years) {
-            for (const semester of semestersInOrder[year]) {
-                if (mallaData[year] && mallaData[year][semester]) {
-                    mallaData[year][semester].forEach(course => {
-                        courses.add(course.codigo);
-                    });
-                }
-            }
-        }
-        return courses;
-    }
-
-    const allCoursesBeforeNinth = getAllCoursesUpToEighthSemester();
-    const REQUIRED_COURSES_COUNT = allCoursesBeforeNinth.size; // El número real de cursos hasta octavo semestre
 
     // Función para renderizar la malla
     function renderMalla() {
@@ -145,16 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         let missingPrereqs = [];
 
                         course.prerequisitos.forEach(prereq => {
-                            if (prereq === "TODOS_HASTA_OCTAVO") {
-                                const completedBeforeNinthCount = [...completedCourses].filter(code => allCoursesBeforeNinth.has(code)).length;
-                                if (completedBeforeNinthCount < REQUIRED_COURSES_COUNT) {
-                                    isLocked = true;
-                                    missingPrereqs.push(`Aprobación de ${REQUIRED_COURSES_COUNT} cursos hasta el 8vo semestre (${completedBeforeNinthCount} completados)`);
-                                }
-                            } else if (!completedCourses.has(prereq)) {
+                            if (!completedCourses.has(prereq)) {
                                 isLocked = true;
-                                // Buscar el nombre del prerrequisito
+                                // Buscar el nombre del prerrequisito para el tooltip
                                 let prereqName = prereq;
+                                // Recorrer toda la malla para encontrar el nombre del prerrequisito
                                 for (const y in mallaData) {
                                     for (const s in mallaData[y]) {
                                         const found = mallaData[y][s].find(c => c.codigo === prereq);
@@ -163,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                             break;
                                         }
                                     }
-                                    if (prereqName !== prereq) break;
+                                    if (prereqName !== prereq) break; // Si ya lo encontramos, salir de los loops
                                 }
                                 missingPrereqs.push(prereqName);
                             }
@@ -187,7 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             // Si no está bloqueado, marcarlo como completado
                             completedCourses.add(course.codigo);
                         }
-                        renderMalla(); // Volver a renderizar para actualizar el estado visual
+                        // Al hacer clic, se re-renderiza toda la malla para actualizar el estado de los demás cursos
+                        renderMalla();
                     });
                     courseListDiv.appendChild(courseItem);
                 });
