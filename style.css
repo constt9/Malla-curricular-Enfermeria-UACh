@@ -1,13 +1,14 @@
 /* Estilos Generales del Cuerpo de la Página */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0; /* Elimina el margen predeterminado del body */
+    margin: 0;
     padding: 0;
-    background-color: #f0f2f5; /* Un gris claro suave */
+    background-color: #f0f2f5; /* Fondo claro */
     color: #333;
-    display: flex; /* Usamos flexbox para centrar el contenido principal */
-    flex-direction: column; /* Apila los elementos verticalmente */
-    min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-size: 16px; /* Tamaño de fuente base */
 }
 
 /* Encabezado */
@@ -34,109 +35,127 @@ header h1 {
 
 /* Contenedor Principal de la Malla */
 #malla-container {
-    flex-grow: 1; /* Permite que el contenedor de la malla ocupe el espacio disponible */
-    max-width: 95%; /* Un poco menos que el 100% para evitar scroll horizontal innecesario */
-    margin: 25px auto; /* Centra el contenedor horizontalmente */
+    flex-grow: 1;
+    width: 98%; /* Ocupa casi todo el ancho disponible */
+    max-width: 1400px; /* Ancho máximo para pantallas grandes */
+    margin: 25px auto;
     padding: 25px;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    overflow-x: auto; /* Permite el scroll horizontal si el contenido es demasiado ancho */
-    /* Para el zoom del 67% y el scroll, es vital que el contenido interno sea más ancho si es necesario */
+    overflow-x: auto; /* Permite scroll horizontal */
+    overflow-y: hidden; /* Oculta scroll vertical a menos que el contenido interno lo necesite */
+    /* Para el zoom de 67%, el browser se encarga de escalar, pero el layout base es este */
 }
 
 /* Contenedores de Año */
 .year-container {
     margin-bottom: 40px;
     padding-bottom: 20px;
-    border-bottom: 2px solid #e0e0e0; /* Separador entre años */
-}
-
-.year-container:last-child {
-    border-bottom: none; /* Elimina el separador del último año */
-    margin-bottom: 0;
+    /* border-bottom: 2px solid #e0e0e0; Eliminar para un look más limpio entre años si los semestres son columnas */
 }
 
 .year-container h2 {
-    color: #0056b3; /* Azul UACh más claro */
-    font-size: 2em;
+    color: #0056b3;
+    font-size: 2.2em; /* Un poco más grande para el título del año */
     text-align: center;
     margin-bottom: 30px;
     padding-bottom: 10px;
     border-bottom: 3px solid #0056b3;
-    display: inline-block; /* Para que el borde sea solo tan ancho como el texto */
+    display: table; /* Para que el borde sea solo tan ancho como el texto y se centre */
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 20px;
     padding-right: 20px;
 }
 
-/* Contenedores de Semestre */
-.semester-container {
-    display: inline-block; /* Permite que los semestres estén en la misma línea */
-    vertical-align: top; /* Alinea los semestres en la parte superior */
-    width: 48%; /* Casi la mitad para dos semestres por fila, deja espacio para el gap */
-    padding: 15px;
-    margin: 1%; /* Pequeño margen para separación */
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
-    min-height: 250px; /* Asegura una altura mínima para la columna del semestre */
+/* Fila de Semestres (Nuevo contenedor para organizar horizontalmente) */
+.semesters-row {
+    display: flex; /* Para que los semestres se coloquen en fila */
+    flex-wrap: nowrap; /* Evita que los semestres se envuelvan a la siguiente línea */
+    justify-content: center; /* Centra los semestres si hay espacio */
+    gap: 20px; /* Espacio entre las columnas de semestres */
+    padding-bottom: 10px; /* Espacio debajo de la fila si hay scrollbar horizontal */
 }
 
-/* Para pantallas más pequeñas, los semestres se apilan */
-@media (max-width: 768px) {
+/* Contenedores de Semestre Individuales (Las Columnas) */
+.semester-container {
+    flex-shrink: 0; /* Evita que el semestre se encoja si no hay espacio */
+    width: calc(50% - 20px); /* Para dos columnas, restando el gap */
+    min-width: 380px; /* Ancho mínimo para cada columna de semestre para que no se aprieten demasiado */
+    max-width: 450px; /* Ancho máximo para cada columna */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 400px; /* Asegura una altura mínima para la columna del semestre */
+    display: flex; /* Para organizar el h3 y la lista de cursos */
+    flex-direction: column;
+}
+
+/* Media query para pantallas más pequeñas: los semestres se apilan */
+@media (max-width: 992px) { /* Ajusta este breakpoint según veas tu malla */
+    .semesters-row {
+        flex-direction: column; /* Apila los semestres verticalmente */
+        align-items: center; /* Centra los semestres apilados */
+    }
     .semester-container {
-        width: 98%; /* Ocupa casi todo el ancho para una columna por semestre */
-        margin: 1% auto;
+        width: 90%; /* Ocupa más ancho cuando están apilados */
+        max-width: 450px; /* Mantén un max-width para que no sean gigantes en móviles */
+        margin-bottom: 20px; /* Espacio entre semestres apilados */
     }
 }
 
 
 .semester-container h3 {
     color: #007bff;
-    font-size: 1.4em;
+    font-size: 1.6em;
     text-align: center;
     margin-top: 0;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #007bff;
-    padding-bottom: 8px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
 }
 
-/* Lista de Cursos dentro de cada Semestre */
+/* Lista de Cursos dentro de cada Semestre (Siempre vertical) */
 .course-list {
     display: flex;
     flex-direction: column; /* Cada ramo en su propia línea vertical */
-    gap: 8px; /* Espacio entre los ramos */
+    gap: 12px; /* Espacio entre los ramos */
+    flex-grow: 1; /* Permite que la lista ocupe el espacio restante en el semestre */
 }
 
 /* Elementos de Curso Individuales */
 .course-item {
     background-color: #e6f2ff; /* Azul claro UACh */
-    padding: 12px 15px;
-    border-radius: 6px;
+    padding: 15px 18px; /* Más padding para hacerlos más grandes */
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     border: 1px solid #cce0ff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 0.95em;
-    min-height: 50px; /* Altura mínima para cada curso */
-    display: flex; /* Para centrar el texto verticalmente si es necesario */
+    font-size: 1em; /* Tamaño de fuente normal */
+    min-height: 60px; /* Altura mínima para cada curso */
+    display: flex;
+    flex-direction: column; /* Para que el código y el nombre se apilen */
     align-items: center;
-    justify-content: center; /* Centrar horizontalmente */
-    text-align: center; /* Asegura que el texto esté centrado */
+    justify-content: center;
+    text-align: center;
 }
 
 .course-item strong {
     display: block; /* Código en su propia línea */
-    font-size: 0.9em;
-    color: #004d99; /* Color más oscuro para el código */
-    margin-bottom: 3px;
+    font-size: 0.9em; /* Código un poco más pequeño */
+    color: #004d99;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 /* Estados de los Cursos */
 .course-item.completed {
     text-decoration: line-through;
     background-color: #d4edda; /* Verde claro */
-    color: #6c757d; /* Gris para indicar completado */
+    color: #6c757d;
     border-color: #28a745;
     opacity: 0.8;
 }
@@ -147,29 +166,28 @@ header h1 {
     cursor: not-allowed;
     opacity: 0.6;
     border-color: #dc3545;
-    /* Puedes añadir un icono o un filtro para hacerlo más obvio */
-    filter: grayscale(50%); /* Hace que los colores sean menos vibrantes */
+    filter: grayscale(50%);
 }
 
 .course-item.unlocked {
-    background-color: #e6f2ff; /* Azul claro UACh (estado por defecto) */
+    background-color: #e6f2ff;
     color: #004085;
     border-color: #007bff;
     cursor: pointer;
 }
 
 .course-item:hover:not(.completed):not(.locked) {
-    background-color: #cce5ff; /* Resaltar al pasar el mouse sobre desbloqueados */
-    transform: translateY(-2px); /* Pequeño efecto al pasar el mouse */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #cce5ff;
+    transform: translateY(-3px); /* Un poco más de "salto" */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
 }
 
 /* Pie de Página */
 footer {
     text-align: center;
-    margin-top: auto; /* Empuja el footer al final de la página */
+    margin-top: auto;
     padding: 15px;
-    background-color: #343a40; /* Gris oscuro */
+    background-color: #343a40;
     color: #ffffff;
     font-size: 0.9em;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
