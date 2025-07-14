@@ -341,3 +341,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderMalla(); // Renderizar la malla inicialmente al cargar la página
 });
+
