@@ -2,13 +2,14 @@ body {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f2f5; /* Un gris claro suave */
+    background-color: #f0f2f5;
     color: #333;
-    overflow-x: hidden; /* Esto es importante para el media query, se controla en #malla-grid */
+    overflow-x: hidden; /* Asegura que el body no cree su propia barra de desplazamiento horizontal */
+    overflow-y: auto; /* Permite desplazamiento vertical normal del body */
 }
 
 header {
-    background-color: #0056b3; /* Azul UACh */
+    background-color: #0056b3;
     color: #fff;
     padding: 1.5rem 0;
     text-align: center;
@@ -32,96 +33,99 @@ header h1 {
 #malla-grid {
     display: flex;
     flex-wrap: nowrap; /* Los años se mantienen en una fila */
-    gap: 20px; /* Reducimos el espacio entre los bloques de año para que quepan más */
-    padding: 20px;
-    justify-content: center;
+    gap: 15px; /* Reducimos aún más el espacio entre los bloques de año */
+    padding: 20px 10px; /* Reducimos el padding lateral */
+    justify-content: flex-start; /* Alineamos al inicio, no al centro, para que la barra de desplazamiento sea obvia */
     align-items: flex-start;
-    overflow-x: auto; /* IMPORTANTE: Permite desplazamiento horizontal si el contenido es demasiado ancho */
+    overflow-x: auto; /* ¡Fundamental para el scroll horizontal! */
+    overflow-y: hidden; /* Evita scroll vertical inesperado en este contenedor */
     padding-bottom: 30px; /* Espacio extra para la barra de desplazamiento horizontal */
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    box-sizing: border-box; /* Incluye padding en el ancho */
 }
 
 .ano-container {
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    padding: 25px;
-    min-width: 450px; /* Reducimos el ancho mínimo de cada bloque de año */
+    padding: 20px 15px; /* Reducimos el padding interno del año */
+    min-width: 400px; /* Reducimos el ancho mínimo de cada bloque de año */
     flex: 0 0 auto; /* No crece, no se encoge, toma su tamaño de contenido */
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-sizing: border-box; /* Asegura que el padding se incluya en el ancho/alto */
+    box-sizing: border-box;
 }
 
 .ano-container h2 {
-    color: #8B0000; /* Rojo oscuro para los títulos de año */
+    color: #8B0000;
     text-align: center;
-    font-size: 2.2em;
+    font-size: 2em; /* Ligeramente más pequeño */
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     border-bottom: 3px solid #e0e0e0;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
     width: 100%;
 }
 
 .semestres-ano {
     display: flex;
-    flex-direction: row; /* Asegura que los semestres estén uno al lado del otro */
-    gap: 15px; /* Reducimos el espacio entre los dos semestres dentro de un año */
+    flex-direction: row;
+    gap: 10px; /* Reducimos el espacio entre los dos semestres */
     width: 100%;
     justify-content: space-around;
 }
 
 .semestre-columna {
-    flex: 1; /* Distribuye el espacio equitativamente */
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Reducimos el espacio entre cursos dentro de un semestre */
+    gap: 8px; /* Reducimos el espacio entre cursos */
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 10px; /* Reducimos el padding */
+    padding: 8px; /* Reducimos el padding */
     background-color: #fcfcfc;
-    box-sizing: border-box; /* Asegura que el padding se incluya en el ancho/alto */
+    box-sizing: border-box;
 }
 
 .semestre-columna h3 {
     text-align: center;
-    color: #0056b3; /* Azul para los títulos de semestre */
-    font-size: 1.4em;
+    color: #0056b3;
+    font-size: 1.3em; /* Ligeramente más pequeño */
     margin-top: 0;
-    margin-bottom: 15px;
-    padding-bottom: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
     border-bottom: 1px dashed #e0e0e0;
 }
 
 .curso {
-    background-color: #e6f7ff; /* Fondo azul claro por defecto */
+    background-color: #e6f7ff;
     border: 1px solid #a8d9ff;
-    padding: 8px; /* Reducimos el padding */
+    padding: 6px; /* Reducimos el padding al mínimo */
     border-radius: 6px;
     text-align: center;
     transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
-    min-height: 70px; /* Ligeramente más bajo para que quepan más */
+    min-height: 60px; /* Reducimos la altura mínima */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 0.85em; /* Ligeramente más pequeño el texto */
+    font-size: 0.8em; /* Reducimos el tamaño del texto general del curso */
     cursor: pointer;
     opacity: 0.7;
-    box-sizing: border-box; /* Asegura que el padding se incluya en el ancho/alto */
+    box-sizing: border-box;
 }
 
 .curso h4 {
-    margin: 0 0 5px 0;
-    font-size: 1em; /* Ajustar el tamaño del título del curso */
-    color: #004085; /* Azul oscuro para el nombre del curso */
-    line-height: 1.2;
+    margin: 0 0 3px 0; /* Espaciado más compacto */
+    font-size: 0.9em; /* Ajustar el tamaño del título del curso */
+    color: #004085;
+    line-height: 1.1; /* Línea más apretada */
 }
 
 .curso p {
     margin: 0;
-    font-size: 0.75em; /* Ajustar el tamaño del texto secundario del curso */
+    font-size: 0.7em; /* Ajustar el tamaño del texto secundario del curso */
     color: #555;
 }
 
@@ -129,14 +133,12 @@ header h1 {
     font-weight: bold;
 }
 
-/* ESTADOS DE LOS CURSOS */
-
-/* Curso Bloqueado (Locked) */
+/* ESTADOS DE LOS CURSOS (sin cambios aquí) */
 .curso.locked {
-    background-color: #f8d7da; /* Rojo claro */
-    border-color: #dc3545; /* Rojo */
-    color: #721c24; /* Texto rojo oscuro */
-    opacity: 0.5; /* Más tenue para indicar que no está disponible */
+    background-color: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+    opacity: 0.5;
     cursor: not-allowed;
     box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
 }
@@ -144,11 +146,10 @@ header h1 {
     color: #721c24;
 }
 
-/* Curso Disponible (Available) */
 .curso.available {
-    background-color: #d4edda; /* Verde claro */
-    border-color: #28a745; /* Verde */
-    color: #155724; /* Texto verde oscuro */
+    background-color: #d4edda;
+    border-color: #28a745;
+    color: #155724;
     opacity: 1;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(40,167,69,0.2);
@@ -162,11 +163,10 @@ header h1 {
     color: #155724;
 }
 
-/* Curso Completado (Completed) */
 .curso.completed {
-    background-color: #cfe2ff; /* Azul claro para completado */
-    border-color: #007bff; /* Azul */
-    color: #004085; /* Texto azul oscuro */
+    background-color: #cfe2ff;
+    border-color: #007bff;
+    color: #004085;
     opacity: 1;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0,123,255,0.2);
@@ -181,14 +181,12 @@ header h1 {
     color: #004085;
 }
 
-/* Estilo para el "tachado" */
 .curso.strikethrough h4 {
     text-decoration: line-through;
     text-decoration-thickness: 2px;
     text-decoration-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Ocultar la nota del curso por defecto, mostrar solo si es necesario o al pasar el mouse */
 .curso .curso-note {
     font-size: 0.7em;
     color: #888;
@@ -220,53 +218,53 @@ footer a:hover {
 }
 
 /* --- MEDIA QUERIES PARA ADAPTAR EL LAYOUT EN PANTALLAS PEQUEÑAS --- */
-@media (max-width: 1200px) { /* Por debajo de 1200px de ancho */
+@media (max-width: 1200px) {
     #malla-grid {
-        gap: 20px; /* Mantener el espacio entre años */
+        gap: 15px; /* Espacio entre años */
         padding: 10px; /* Reducir el padding general */
     }
 
     .ano-container {
-        min-width: unset; /* Quita el min-width fijo */
-        width: calc(100% - 20px); /* Ocupa casi todo el ancho disponible, restando los paddings */
-        padding: 15px; /* Reducir padding del contenedor del año */
+        min-width: unset;
+        width: calc(100% - 20px); /* Ajusta para padding */
+        padding: 15px;
     }
 
     .semestres-ano {
         flex-direction: column; /* Apila los semestres uno debajo del otro */
-        gap: 20px; /* Espacio entre semestres apilados */
+        gap: 15px; /* Espacio entre semestres apilados */
     }
 
     .semestre-columna {
-        padding: 12px; /* Ajustar padding del semestre apilado */
+        padding: 10px;
     }
 
     .curso {
-        padding: 10px; /* Ajustar padding del curso en modo apilado */
-        font-size: 0.9em; /* Ligeramente más grande para mejor legibilidad */
-        min-height: 80px; /* Un poco más de altura */
+        padding: 8px; /* Ajustar padding del curso en modo apilado */
+        font-size: 0.85em;
+        min-height: 70px;
     }
 
     .curso h4 {
-        font-size: 1.1em;
+        font-size: 1em;
     }
 
     .curso p {
-        font-size: 0.8em;
+        font-size: 0.75em;
     }
 }
 
-@media (max-width: 768px) { /* Para pantallas aún más pequeñas (móviles) */
+@media (max-width: 768px) {
     header h1 {
-        font-size: 1.8em;
+        font-size: 1.6em; /* Más pequeño para móviles */
     }
     .subtitle {
-        font-size: 1em;
+        font-size: 0.9em;
     }
     .ano-container h2 {
-        font-size: 1.8em;
+        font-size: 1.6em;
     }
     .semestre-columna h3 {
-        font-size: 1.2em;
+        font-size: 1.1em;
     }
 }
