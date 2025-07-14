@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "Segundo Semestre": [
           { "codigo": "CIDI081-20", "nombre": "COMUNICACIÓN EN LENGUA INGLESA NIVEL INTERMEDIO", "prerequisitos": ["CIDI067-20"] },
           { "codigo": "BIOQ077-20", "nombre": "BIOQUÍMICA GENERAL", "prerequisitos": ["QUIM064-20"] },
-          { "codigo": "DYRE027-20", "nombre": "AUTOCUIDADO Y VIDA ACTIVA", "prerequisitos": [] },
+          { "codigo": "ELECT12", "nombre": "OFG 1", "prerequisitos": ["DYRE070-14"] },
           { "codigo": "ENFA070-20", "nombre": "FUNDAMENTOS DISCIPLINARES TEÓRICOS Y PRÁCTICOS DE LA ENFERMERÍA", "prerequisitos": ["ANAT060-20", "ENFA051-20"] },
           { "codigo": "FISL075-20", "nombre": "FISIOLOGÍA HUMANA", "prerequisitos": ["ANAT060-20", "BIMI055-20"] },
           { "codigo": "PSIQ080-20", "nombre": "PSICOLOGÍA ANTROPOLÓGICA", "prerequisitos": [] },
