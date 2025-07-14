@@ -4,8 +4,8 @@ body {
     padding: 0;
     background-color: #f0f2f5;
     color: #333;
-    overflow-x: hidden; /* Asegura que el body no cree su propia barra de desplazamiento horizontal */
-    overflow-y: auto; /* Permite desplazamiento vertical normal del body */
+    overflow-x: hidden; /* Oculta la barra de scroll horizontal del body para que #malla-grid la gestione */
+    overflow-y: auto; /* Permite scroll vertical normal en el body */
 }
 
 header {
@@ -33,14 +33,15 @@ header h1 {
 #malla-grid {
     display: flex;
     flex-wrap: nowrap; /* Los años se mantienen en una fila */
-    gap: 15px; /* Reducimos aún más el espacio entre los bloques de año */
-    padding: 20px 10px; /* Reducimos el padding lateral */
-    justify-content: flex-start; /* Alineamos al inicio, no al centro, para que la barra de desplazamiento sea obvia */
+    gap: 10px; /* Reducimos aún más el espacio entre los bloques de año */
+    padding: 20px 5px; /* Reducimos el padding lateral al mínimo */
+    justify-content: flex-start; /* Alineamos al inicio */
     align-items: flex-start;
-    overflow-x: auto; /* ¡Fundamental para el scroll horizontal! */
-    overflow-y: hidden; /* Evita scroll vertical inesperado en este contenedor */
+    overflow-x: auto; /* ¡CRUCIAL: Habilita el scroll horizontal aquí! */
+    overflow-y: hidden; /* Evita scroll vertical en este contenedor */
     padding-bottom: 30px; /* Espacio extra para la barra de desplazamiento horizontal */
-    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    width: 100vw; /* Asegura que ocupe el 100% del ancho del viewport */
+    min-width: 0; /* Permite que se encoja si es necesario */
     box-sizing: border-box; /* Incluye padding en el ancho */
 }
 
@@ -48,8 +49,8 @@ header h1 {
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    padding: 20px 15px; /* Reducimos el padding interno del año */
-    min-width: 400px; /* Reducimos el ancho mínimo de cada bloque de año */
+    padding: 15px 10px; /* Reducimos el padding interno del año */
+    min-width: 380px; /* Reducimos el ancho mínimo de cada bloque de año */
     flex: 0 0 auto; /* No crece, no se encoge, toma su tamaño de contenido */
     display: flex;
     flex-direction: column;
@@ -60,18 +61,18 @@ header h1 {
 .ano-container h2 {
     color: #8B0000;
     text-align: center;
-    font-size: 2em; /* Ligeramente más pequeño */
+    font-size: 1.8em; /* Más pequeño para que quepa */
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     border-bottom: 3px solid #e0e0e0;
-    padding-bottom: 8px;
+    padding-bottom: 6px;
     width: 100%;
 }
 
 .semestres-ano {
     display: flex;
     flex-direction: row;
-    gap: 10px; /* Reducimos el espacio entre los dos semestres */
+    gap: 8px; /* Espacio mínimo entre los dos semestres */
     width: 100%;
     justify-content: space-around;
 }
@@ -80,10 +81,10 @@ header h1 {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Reducimos el espacio entre cursos */
+    gap: 6px; /* Espacio mínimo entre cursos */
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 8px; /* Reducimos el padding */
+    padding: 6px; /* Padding mínimo */
     background-color: #fcfcfc;
     box-sizing: border-box;
 }
@@ -91,41 +92,41 @@ header h1 {
 .semestre-columna h3 {
     text-align: center;
     color: #0056b3;
-    font-size: 1.3em; /* Ligeramente más pequeño */
+    font-size: 1.2em; /* Más pequeño */
     margin-top: 0;
-    margin-bottom: 12px;
-    padding-bottom: 6px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
     border-bottom: 1px dashed #e0e0e0;
 }
 
 .curso {
     background-color: #e6f7ff;
     border: 1px solid #a8d9ff;
-    padding: 6px; /* Reducimos el padding al mínimo */
+    padding: 4px; /* Padding ultra-reducido */
     border-radius: 6px;
     text-align: center;
     transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
-    min-height: 60px; /* Reducimos la altura mínima */
+    min-height: 55px; /* Altura mínima muy reducida */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 0.8em; /* Reducimos el tamaño del texto general del curso */
+    font-size: 0.75em; /* Tamaño de fuente más pequeño */
     cursor: pointer;
     opacity: 0.7;
     box-sizing: border-box;
 }
 
 .curso h4 {
-    margin: 0 0 3px 0; /* Espaciado más compacto */
-    font-size: 0.9em; /* Ajustar el tamaño del título del curso */
+    margin: 0 0 2px 0; /* Margen mínimo */
+    font-size: 0.85em; /* Título del curso más pequeño */
     color: #004085;
-    line-height: 1.1; /* Línea más apretada */
+    line-height: 1.1;
 }
 
 .curso p {
     margin: 0;
-    font-size: 0.7em; /* Ajustar el tamaño del texto secundario del curso */
+    font-size: 0.65em; /* Texto secundario más pequeño */
     color: #555;
 }
 
@@ -220,19 +221,19 @@ footer a:hover {
 /* --- MEDIA QUERIES PARA ADAPTAR EL LAYOUT EN PANTALLAS PEQUEÑAS --- */
 @media (max-width: 1200px) {
     #malla-grid {
-        gap: 15px; /* Espacio entre años */
-        padding: 10px; /* Reducir el padding general */
+        gap: 15px;
+        padding: 10px;
     }
 
     .ano-container {
         min-width: unset;
-        width: calc(100% - 20px); /* Ajusta para padding */
+        width: calc(100% - 20px);
         padding: 15px;
     }
 
     .semestres-ano {
-        flex-direction: column; /* Apila los semestres uno debajo del otro */
-        gap: 15px; /* Espacio entre semestres apilados */
+        flex-direction: column;
+        gap: 15px;
     }
 
     .semestre-columna {
@@ -240,7 +241,7 @@ footer a:hover {
     }
 
     .curso {
-        padding: 8px; /* Ajustar padding del curso en modo apilado */
+        padding: 8px;
         font-size: 0.85em;
         min-height: 70px;
     }
@@ -256,7 +257,7 @@ footer a:hover {
 
 @media (max-width: 768px) {
     header h1 {
-        font-size: 1.6em; /* Más pequeño para móviles */
+        font-size: 1.6em;
     }
     .subtitle {
         font-size: 0.9em;
