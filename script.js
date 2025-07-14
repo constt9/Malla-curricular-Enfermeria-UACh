@@ -1,6 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Datos completos de la malla curricular para los 5 años
-    const mallaData = {
+// ... (código JavaScript inicial, document.addEventListener y const mallaData = { )
+
       "Primer Año": {
         "Primer Semestre": [
           {
@@ -250,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             "codigo": "ENFA205-20",
             "nombre": "GESTIÓN DEL CUIDADO EN ATENCIÓN AMBULATORIA",
-            "prerequisitos": ["APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE: 42 CURSOS"]
+            "prerequisitos": ["APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE: 42 CURSOS"] // Este es el requisito que mencioné.
           }
         ],
         "Décimo Semestre": [
@@ -262,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             "codigo": "ENFA207-20",
             "nombre": "GESTIÓN DEL CUIDADO EN ATENCIÓN HOSPITALARIA",
-            "prerequisitos": ["APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE: 42 CURSOS"]
+            "prerequisitos": ["APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE: 42 CURSOS"] // Este es el requisito que mencioné.
           },
           {
             "codigo": "ESEN298-20",
@@ -273,72 +272,4 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    const mallaContainer = document.getElementById('malla-container');
-    let completedCourses = new Set(); // Para almacenar los códigos de cursos completados
-
-    // Función para renderizar la malla
-    function renderMalla() {
-        mallaContainer.innerHTML = ''; // Limpiar el contenedor antes de renderizar
-        for (const year in mallaData) {
-            const yearDiv = document.createElement('div');
-            yearDiv.classList.add('year-container');
-            yearDiv.innerHTML = `<h2>${year}</h2>`;
-
-            for (const semester in mallaData[year]) {
-                const semesterDiv = document.createElement('div');
-                semesterDiv.classList.add('semester-container');
-                semesterDiv.innerHTML = `<h3>${semester}</h3>`;
-
-                const courseListDiv = document.createElement('div');
-                courseListDiv.classList.add('course-list');
-
-                mallaData[year][semester].forEach(course => {
-                    const courseItem = document.createElement('div');
-                    courseItem.classList.add('course-item');
-                    courseItem.setAttribute('data-code', course.codigo);
-                    courseItem.innerHTML = `<strong>${course.codigo}:</strong> ${course.nombre}`;
-
-                    // Verificar si el curso ya está completado
-                    if (completedCourses.has(course.codigo)) {
-                        courseItem.classList.add('completed');
-                    } else {
-                        // Verificar si el curso está bloqueado (tiene prerrequisitos no completados)
-                        const isLocked = course.prerequisitos.some(prereq => {
-                            // Manejo especial para el requisito de "APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE"
-                            // Por ahora, si un curso tiene este texto como prerrequisito, se considerará bloqueado
-                            // hasta que se desarrolle una lógica más avanzada para contar los 42 cursos.
-                            if (prereq.includes("APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE")) {
-                                return true; // Lo bloquea por defecto si tiene este requisito complejo
-                            }
-                            return !completedCourses.has(prereq);
-                        });
-
-                        if (isLocked) {
-                            courseItem.classList.add('locked');
-                        } else {
-                            courseItem.classList.add('unlocked');
-                        }
-                    }
-
-                    courseItem.addEventListener('click', () => {
-                        if (courseItem.classList.contains('completed')) {
-                            // Si ya está completado, desmarcarlo
-                            completedCourses.delete(course.codigo);
-                        } else if (!courseItem.classList.contains('locked')) {
-                            // Si no está bloqueado, marcarlo como completado
-                            completedCourses.add(course.codigo);
-                        }
-                        renderMalla(); // Volver a renderizar para actualizar el estado visual
-                    });
-                    courseListDiv.appendChild(courseItem);
-                });
-                semesterDiv.appendChild(courseListDiv);
-                yearDiv.appendChild(semesterDiv);
-            }
-            mallaContainer.appendChild(yearDiv);
-        }
-    }
-
-    renderMalla(); // Renderizar la malla inicialmente al cargar la página
-});
-
+// ... (El resto del código JavaScript para renderizar y manejar clics)
