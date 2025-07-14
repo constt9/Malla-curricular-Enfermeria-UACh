@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
         "Segundo Semestre": [
           { "codigo": "CIDI081-20", "nombre": "COMUNICACIÓN EN LENGUA INGLESA NIVEL INTERMEDIO", "prerequisitos": ["CIDI067-20"] },
           { "codigo": "BIOQ077-20", "nombre": "BIOQUÍMICA GENERAL", "prerequisitos": ["QUIM064-20"] },
-          // CAMBIO REALIZADO AQUÍ: DYRE027-20 por ELEC12 con su requisito
           { "codigo": "ELEC12", "nombre": "OFG 1", "prerequisitos": ["DYRE070-14"] },
           { "codigo": "ENFA070-20", "nombre": "FUNDAMENTOS DISCIPLINARES TEÓRICOS Y PRÁCTICOS DE LA ENFERMERÍA", "prerequisitos": ["ANAT060-20", "ENFA051-20"] },
           { "codigo": "FISL075-20", "nombre": "FISIOLOGÍA HUMANA", "prerequisitos": ["ANAT060-20", "BIMI055-20"] },
@@ -72,11 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
         "Noveno Semestre": [
           { "codigo": "ELECT112", "nombre": "OPTATIVO DE PROFUNDIZACIÓN I", "prerequisitos": [] },
           { "codigo": "ENFA204-20", "nombre": "AVANCE DE INVESTIGACIÓN", "prerequisitos": ["ENFA194-20"] },
-          { "codigo": "ENFA205-20", "nombre": "GESTIÓN DEL CUIDADO EN ATENCIÓN AMBULATORIA", "prerequisitos": ["APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE: 42 CURSOS"] }
+          // CAMBIO REALIZADO AQUÍ: ENFA205-20 con nuevo prerrequisito
+          { "codigo": "ENFA205-20", "nombre": "GESTIÓN DEL CUIDADO EN ATENCIÓN AMBULATORIA", "prerequisitos": ["TODOS_HASTA_OCTAVO"] }
         ],
         "Décimo Semestre": [
           { "codigo": "ELECT116", "nombre": "OPTATIVO DE PROFUNDIZACIÓN II", "prerequisitos": [] },
-          { "codigo": "ENFA207-20", "nombre": "GESTIÓN DEL CUIDADO EN ATENCIÓN HOSPITALARIA", "prerequisitos": ["APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE: 42 CURSOS"] },
+          // CAMBIO REALIZADO AQUÍ: ENFA207-20 con nuevo prerrequisito
+          { "codigo": "ENFA207-20", "nombre": "GESTIÓN DEL CUIDADO EN ATENCIÓN HOSPITALARIA", "prerequisitos": ["TODOS_HASTA_OCTAVO"] },
           { "codigo": "ESEN298-20", "nombre": "TRABAJO DE INVESTIGACIÓN", "prerequisitos": ["ENFA204-20"] }
         ]
       }
@@ -84,6 +85,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const mallaContainer = document.getElementById('malla-container');
     let completedCourses = new Set(); // Para almacenar los códigos de cursos completados
+
+    // Función auxiliar para obtener todos los códigos de cursos hasta el 8vo semestre
+    function getAllCoursesUpToEighthSemester() {
+        const courses = new Set();
+        const years = ["Primer Año", "Segundo Año", "Tercer Año", "Cuarto Año"];
+        const semestersInOrder = {
+            "Primer Año": ["Primer Semestre", "Segundo Semestre"],
+            "Segundo Año": ["Tercer Semestre", "Cuarto Semestre"],
+            "Tercer Año": ["Quinto Semestre", "Sexto Semestre"],
+            "Cuarto Año": ["Septimo Semestre", "Octavo Semestre"]
+        };
+
+        for (const year of years) {
+            for (const semester of semestersInOrder[year]) {
+                if (mallaData[year] && mallaData[year][semester]) {
+                    mallaData[year][semester].forEach(course => {
+                        courses.add(course.codigo);
+                    });
+                }
+            }
+        }
+        return courses;
+    }
+
+    const allCoursesBeforeNinth = getAllCoursesUpToEighthSemester();
+    const REQUIRED_COURSES_COUNT = allCoursesBeforeNinth.size; // El número real de cursos hasta octavo semestre
 
     // Función para renderizar la malla
     function renderMalla() {
@@ -114,40 +141,38 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (completedCourses.has(course.codigo)) {
                         courseItem.classList.add('completed');
                     } else {
-                        // Verificar si el curso está bloqueado (tiene prerrequisitos no completados)
-                        const isLocked = course.prerequisitos.some(prereq => {
-                            // Manejo especial para el requisito de "APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE"
-                            // Esto requiere una lógica más compleja para contar todos los cursos completados
-                            // Por ahora, si un curso tiene este texto como prerrequisito, se considerará bloqueado
-                            // hasta que se desarrolle esa lógica específica.
-                            if (prereq.includes("APROBACIÓN DE CURSOS HASTA EL OCTAVO SEMESTRE")) {
-                                // Aquí puedes añadir una lógica para contar los cursos si lo deseas.
-                                // Por ejemplo:
-                                // const allCoursesBefore8th = getAllCoursesUpTo8thSemester(mallaData); // Necesitarías una función para esto
-                                // const completedBefore8th = [...completedCourses].filter(code => allCoursesBefore8th.has(code)).length;
-                                // return completedBefore8th < 42;
-                                return true; // Lo mantiene bloqueado por defecto para este requisito complejo
+                        let isLocked = false;
+                        let missingPrereqs = [];
+
+                        course.prerequisitos.forEach(prereq => {
+                            if (prereq === "TODOS_HASTA_OCTAVO") {
+                                const completedBeforeNinthCount = [...completedCourses].filter(code => allCoursesBeforeNinth.has(code)).length;
+                                if (completedBeforeNinthCount < REQUIRED_COURSES_COUNT) {
+                                    isLocked = true;
+                                    missingPrereqs.push(`Aprobación de ${REQUIRED_COURSES_COUNT} cursos hasta el 8vo semestre (${completedBeforeNinthCount} completados)`);
+                                }
+                            } else if (!completedCourses.has(prereq)) {
+                                isLocked = true;
+                                // Buscar el nombre del prerrequisito
+                                let prereqName = prereq;
+                                for (const y in mallaData) {
+                                    for (const s in mallaData[y]) {
+                                        const found = mallaData[y][s].find(c => c.codigo === prereq);
+                                        if (found) {
+                                            prereqName = found.nombre;
+                                            break;
+                                        }
+                                    }
+                                    if (prereqName !== prereq) break;
+                                }
+                                missingPrereqs.push(prereqName);
                             }
-                            return !completedCourses.has(prereq);
                         });
 
                         if (isLocked) {
                             courseItem.classList.add('locked');
-                            // Añadir un tooltip o información si está bloqueado
-                            const prereqNames = course.prerequisitos
-                                .filter(prereq => !completedCourses.has(prereq))
-                                .map(prereqCode => {
-                                    // Buscar el nombre del prerrequisito
-                                    for (const y in mallaData) {
-                                        for (const s in mallaData[y]) {
-                                            const found = mallaData[y][s].find(c => c.codigo === prereqCode);
-                                            if (found) return found.nombre;
-                                        }
-                                    }
-                                    return prereqCode; // Si no encuentra el nombre, usa el código
-                                });
-                            if (prereqNames.length > 0) {
-                                courseItem.title = "Requiere: " + prereqNames.join(', ');
+                            if (missingPrereqs.length > 0) {
+                                courseItem.title = "Requiere: " + missingPrereqs.join(', ');
                             }
                         } else {
                             courseItem.classList.add('unlocked');
