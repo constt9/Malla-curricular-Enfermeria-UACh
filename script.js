@@ -1,229 +1,240 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const mallaEnfermeriaUACh = {
+        "Primero": {
+            "Semestre I": [
+                { id: "ENFA051-20", nombre: "BASES CONCEPTUALES DE LA ENFERMERÍA", prerequisitos: [] },
+                { id: "QUIMD064-20", nombre: "BASES DE QUÍMICA GENERAL Y ORGÁNICA", prerequisitos: [] },
+                { id: "ANAT060-20", nombre: "BASES MORFOLÓGICAS E HISTOLÓGICAS DEL SER HUMANO", prerequisitos: [] },
+                { id: "BIOL057-20", nombre: "BIOLOGÍA CELULAR Y MOLECULAR", prerequisitos: [] },
+                { id: "HISP003-20", nombre: "HISTORIA POLÍTICA Y SOCIAL DE CHILE", prerequisitos: [] },
+                { id: "ENFA052-20", nombre: "EDUCACIÓN PARA EL AUTOCUIDADO", prerequisitos: [] }
+            ],
+            "Semestre II": [
+                { id: "FISA053-20", nombre: "FISIOPATOLOGÍA BÁSICA", prerequisitos: ["ANAT060-20", "BIOL057-20"] },
+                { id: "ENFA054-20", nombre: "PROCESOS DE ENFERMERÍA Y FUNDAMENTOS DEL CUIDADO", prerequisitos: ["ENFA051-20"] },
+                { id: "PSIC083-20", nombre: "PSICOLOGÍA DEL DESARROLLO", prerequisitos: ["HISP003-20"] },
+                { id: "SOCI005-20", nombre: "SOCIOLOGÍA", prerequisitos: [] },
+                { id: "ENFA055-20", nombre: "SALUD PÚBLICA Y SALUD COMUNITARIA", prerequisitos: ["ENFA051-20"] },
+                { id: "FORM006-20", nombre: "FORMACIÓN DE PERSONAS", prerequisitos: [] }
+            ]
+        },
+        "Segundo": {
+            "Semestre III": [
+                { id: "ENFA056-20", nombre: "CUIDADO DE ENFERMERÍA EN SALUD FAMILIAR Y COMUNITARIA", prerequisitos: ["ENFA054-20", "ENFA055-20"] },
+                { id: "FARMD058-20", nombre: "FARMACOLOGÍA BÁSICA", prerequisitos: ["FISA053-20", "QUIMD064-20"] },
+                { id: "ENFA057-20", nombre: "EPIDEMIOLOGÍA Y DEMOGRAFÍA", prerequisitos: ["SOCI005-20"] },
+                { id: "ENFA058-20", nombre: "MICROBIOLOGÍA Y PARASITOLOGÍA", prerequisitos: ["BIOL057-20"] },
+                { id: "ENFA059-20", nombre: "NUTRICIÓN Y DIETÉTICA", prerequisitos: ["FISA053-20"] },
+                { id: "ENFA060-20", nombre: "INVESTIGACIÓN EN CIENCIAS DE LA SALUD", prerequisitos: ["HISP003-20"] }
+            ],
+            "Semestre IV": [
+                { id: "ENFA061-20", nombre: "CUIDADO DE ENFERMERÍA DEL NIÑO, LA NIÑA Y ADOLESCENTES CON NECESIDADES DE SALUD", prerequisitos: ["ENFA056-20"] },
+                { id: "ENFA062-20", nombre: "CUIDADO DE ENFERMERÍA EN SALUD MENTAL Y PSIQUIATRÍA", prerequisitos: ["PSIC083-20", "ENFA056-20"] },
+                { id: "ENFA063-20", nombre: "FARMACOLOGÍA CLÍNICA PARA ENFERMERÍA", prerequisitos: ["FARMD058-20"] },
+                { id: "ENFA064-20", nombre: "INTRODUCCIÓN A LA ENFERMERÍA CLÍNICA", prerequisitos: ["ENFA054-20", "FISA053-20"] },
+                { id: "ENFA065-20", nombre: "BIOESTADÍSTICA", prerequisitos: ["ENFA057-20"] },
+                { id: "ENFA066-20", nombre: "SALUD SEXUAL Y REPRODUCTIVA DE LA MUJER", prerequisitos: ["ENFA056-20"] }
+            ]
+        },
+        "Tercero": {
+            "Semestre V": [
+                { id: "ENFA067-20", nombre: "CUIDADOS DE ENFERMERÍA DE PERSONAS ADULTAS Y MAYORES EN EL PROCESO DE SALUD Y ENFERMEDAD", prerequisitos: ["ENFA061-20", "ENFA064-20"] },
+                { id: "ENFA068-20", nombre: "ENFERMEDADES PREVALENTES DE PERSONAS ADULTAS Y MAYORES", prerequisitos: ["ENFA063-20"] },
+                { id: "ENFA069-20", nombre: "SALUD LABORAL Y AMBIENTAL", prerequisitos: ["ENFA055-20"] },
+                { id: "ENFA070-20", nombre: "MÉTODOS DE INVESTIGACIÓN EN SALUD", prerequisitos: ["ENFA060-20", "ENFA065-20"] },
+                { id: "ENFA071-20", nombre: "OPTATIVO DE FORMACIÓN GENERAL I", prerequisitos: [] }
+            ],
+            "Semestre VI": [
+                { id: "ENFA072-20", nombre: "GESTIÓN DEL CUIDADO EN ATENCIÓN HOSPITALARIA DEL ADULTO Y ADULTO MAYOR", prerequisitos: ["ENFA067-20"] },
+                { id: "ENFA073-20", nombre: "CUIDADOS DE ENFERMERÍA EN LA NIÑA, EL NIÑO Y ADOLESCENTE CON ALTERACIONES DE SALUD", prerequisitos: ["ENFA061-20"] },
+                { id: "ENFA074-20", nombre: "ATENCIÓN DE ENFERMERÍA EN SITUACIÓN DE URGENCIAS Y EMERGENCIAS", prerequisitos: ["ENFA064-20"] },
+                { id: "ENFA075-20", nombre: "INTERVENCIONES PREVENTIVAS DE LA ENFERMEDAD EN SALUD", prerequisitos: ["ENFA055-20"] },
+                { id: "ENFA076-20", nombre: "OPTATIVO DE FORMACIÓN GENERAL II", prerequisitos: [] }
+            ]
+        },
+        "Cuarto": {
+            "Semestre VII": [
+                { id: "ENFA077-20", nombre: "CUIDADOS DE ENFERMERÍA DE LA MUJER Y NEONATO", prerequisitos: ["ENFA066-20"] },
+                { id: "ENFA078-20", nombre: "GESTIÓN DEL CUIDADO EN ATENCIÓN PRIMARIA DE SALUD", prerequisitos: ["ENFA056-20"] },
+                { id: "ENFA079-20", nombre: "ENFERMERÍA EN SALUD MENTAL COMUNITARIA", prerequisitos: ["ENFA062-20"] },
+                { id: "ENFA080-20", nombre: "TALLER DE INVESTIGACIÓN", prerequisitos: ["ENFA070-20"] },
+                { id: "ENFA081-20", nombre: "ÉTICA EN SALUD", prerequisitos: [] }
+            ],
+            "Semestre VIII": [
+                { id: "ENFA082-20", nombre: "INTERVENCIONES TERAPÉUTICAS EN ENFERMERÍA", prerequisitos: ["ENFA072-20", "ENFA073-20"] },
+                { id: "ENFA083-20", nombre: "SALUD EN POBLACIONES VULNERABLES", prerequisitos: ["ENFA075-20"] },
+                { id: "ENFA084-20", nombre: "CUIDADO EN ENFERMEDADES CRÓNICAS", prerequisitos: ["ENFA067-20"] },
+                { id: "ENFA085-20", nombre: "GESTIÓN DE LA CALIDAD EN SALUD", prerequisitos: ["ENFA072-20"] },
+                { id: "ENFA086-20", nombre: "OPTATIVO DE FORMACIÓN GENERAL III", prerequisitos: [] }
+            ]
+        },
+        "Quinto": {
+            "Semestre IX": [
+                { id: "ENFA087-20", nombre: "INTERNADO DE ENFERMERÍA EN ATENCIÓN PRIMARIA DE SALUD", prerequisitos: ["ENFA078-20"] },
+                { id: "ENFA088-20", nombre: "INTERNADO DE ENFERMERÍA EN ATENCIÓN ABIERTA Y CERRADA", prerequisitos: ["ENFA082-20"] },
+                { id: "ENFA089-20", nombre: "TRABAJO DE INVESTIGACIÓN I", prerequisitos: ["ENFA080-20"] },
+                { id: "ELECT112", nombre: "OPTATIVO DE PROFUNDIZACIÓN I", prerequisitos: [] }
+            ],
+            "Semestre X": [
+                { id: "ENFA090-20", nombre: "INTERNADO DE ENFERMERÍA EN ÁREA CRÍTICA Y URGENCIAS", prerequisitos: ["ENFA074-20", "ENFA082-20"] },
+                { id: "ENFA091-20", nombre: "SEMINARIO DE INVESTIGACIÓN", prerequisitos: ["ENFA089-20"] },
+                { id: "ENFA092-20", nombre: "FORMACIÓN DE LIDERAZGO", prerequisitos: ["ENFA085-20"] },
+                { id: "ELECT116", nombre: "OPTATIVO DE PROFUNDIZACIÓN II", prerequisitos: [] }
+            ]
+        }
+    };
+
+    // Cargar estados guardados o inicializar
+    let courseStates = loadCourseStates();
+
     const mallaGrid = document.getElementById('malla-grid');
 
-    // **Datos de la Malla Curricular de Enfermería - UACh**
-    // Incluye todos los ramos y sus prerrequisitos según lo proporcionaste.
-    // Los créditos se establecen en 0 si no se especificaron.
-    // Los estados iniciales serán 'locked' (bloqueado), 'available' (disponible), 'completed' (completado).
-    const mallaEnfermeriaUACh = [
-        // Primer año, Primer semestre
-        // Cursos sin prerrequisitos iniciales son "available" por defecto
-        { id: "ANAT060-20", nombre: "BASES MORFOLÓGICAS E HISTOLÓGICAS DEL SER HUMANO", semestre: 1, creditos: 0, prerequisitos: [], estado: "available" },
-        { id: "BIMI055-20", nombre: "BIOLOGÍA CELULAR", semestre: 1, creditos: 0, prerequisitos: [], estado: "available" },
-        { id: "CIDI067-20", nombre: "COMUNICACIÓN EN LENGUA INGLESA NIVEL BÁSICO", semestre: 1, creditos: 0, prerequisitos: [], estado: "available" },
-        { id: "DYRE070-14", nombre: "EDUCACIÓN FÍSICA Y SALUD", semestre: 1, creditos: 0, prerequisitos: [], estado: "available" },
-        { id: "ENFA051-20", nombre: "BASES CONCEPTUALES DE LA ENFERMERÍA", semestre: 1, creditos: 0, prerequisitos: [], estado: "available" },
-        { id: "ESEN062-20", nombre: "INTRODUCCIÓN A LOS ESTUDIOS UNIVERSITARIOS", semestre: 1, creditos: 0, prerequisitos: [], estado: "available" },
-        { id: "QUIM064-20", nombre: "BASES DE QUÍMICA GENERAL Y ORGÁNICA", semestre: 1, creditos: 0, prerequisitos: [], estado: "available" },
+    function createCourseElement(curso, estado) {
+        const cursoDiv = document.createElement('div');
+        cursoDiv.classList.add('curso');
+        cursoDiv.classList.add(estado); // Add initial state class
 
-        // Primer año, Segundo semestre (estos y los siguientes se inicializan como "locked" y se actualizan dinámicamente)
-        { id: "CIDI081-20", nombre: "COMUNICACIÓN EN LENGUA INGLESA NIVEL INTERMEDIO", semestre: 2, creditos: 0, prerequisitos: [], estado: "locked" },
-        { id: "BIOQ077-20", nombre: "BIOQUÍMICA GENERAL", semestre: 2, creditos: 0, prerequisitos: ["QUIM064-20"], estado: "locked" },
-        { id: "DYRE027-20", nombre: "AUTOCUIDADO Y VIDA ACTIVA", semestre: 2, creditos: 0, prerequisitos: [], estado: "locked" },
-        { id: "ENFA070-20", nombre: "FUNDAMENTOS DISCIPLINARES TEÓRICOS Y PRÁCTICOS DE LA ENFERMERÍA", semestre: 2, creditos: 0, prerequisitos: ["ANAT060-20", "ENFA051-20"], estado: "locked" },
-        { id: "FISL075-20", nombre: "FISIOLOGÍA HUMANA", semestre: 2, creditos: 0, prerequisitos: ["ANAT060-20", "BIMI055-20"], estado: "locked" },
-        { id: "PSIQ080-20", nombre: "PSICOLOGÍA ANTROPOLÓGICA", semestre: 2, creditos: 0, prerequisitos: [], estado: "locked" },
-        { id: "SALP083-20", nombre: "BASES CONCEPTUALES DE LA SALUD PÚBLICA Y COLECTIVA", semestre: 2, creditos: 0, prerequisitos: [], estado: "locked" },
-        { id: "SALP085-20", nombre: "HABILIDADES INFORMACIONALES", semestre: 2, creditos: 0, prerequisitos: [], estado: "locked" },
+        const h4 = document.createElement('h4');
+        h4.textContent = curso.nombre; // Only course name
 
-        // Segundo año, Tercer semestre
-        { id: "ENFA092-20", nombre: "CUIDADOS DE ENFERMERÍA DE PERSONAS ADULTAS Y MAYORES CON NECESIDADES DE SALUD", semestre: 3, creditos: 0, prerequisitos: ["ENFA070-20", "FISL075-20", "SALP083-20"], estado: "locked" },
-        { id: "ENFA096-20", nombre: "BIOÉTICA Y PROFESIÓN", semestre: 3, creditos: 0, prerequisitos: ["ENFA070-20"], estado: "locked" },
-        { id: "HIPA093-24", nombre: "FISIOPATOLOGÍA HUMANA", semestre: 3, creditos: 0, prerequisitos: ["FISL075-20"], estado: "locked" },
-        { id: "PRST091-22", nombre: "AGENTES PATÓGENOS EN EL SER HUMANO", semestre: 3, creditos: 0, prerequisitos: [], estado: "locked" },
-        { id: "PSIQ097-20", nombre: "PSICOLOGÍA DEL DESARROLLO", semestre: 3, creditos: 0, prerequisitos: ["PSIQ080-20"], estado: "locked" },
+        const pId = document.createElement('p');
+        pId.classList.add('curso-id');
+        pId.textContent = `(${curso.id})`; // Only course code in parenthesis
 
-        // Segundo año, Cuarto semestre
-        { id: "ENFA098-20", nombre: "CUIDADOS DE ENFERMERÍA DE LA NIÑA, EL NIÑO Y ADOLESCENTES CON NECESIDADES DE SALUD", semestre: 4, creditos: 0, prerequisitos: ["PRST091-22", "ENFA092-20", "FISL075-20"], estado: "locked" },
-        { id: "ENFM090-20", nombre: "SALUD SEXUAL Y REPRODUCTIVA EN LA MUJER", semestre: 4, creditos: 0, prerequisitos: ["HIPA093-24"], estado: "locked" },
-        { id: "ESTD093-20", nombre: "METODOLOGÍA DE LA INVESTIGACIÓN EN SALUD", semestre: 4, creditos: 0, prerequisitos: ["SALP085-20"], estado: "locked" },
-        { id: "FARM099-20", nombre: "FARMACOLOGÍA Y TOXICOLOGÍA", semestre: 4, creditos: 0, prerequisitos: ["BIOQ077-20", "HIPA093-24"], estado: "locked" },
-        { id: "SALP095-20", nombre: "EPIDEMIOLOGÍA Y DEMOGRAFÍA", semestre: 4, creditos: 0, prerequisitos: ["SALP083-20"], estado: "locked" },
+        cursoDiv.appendChild(h4);
+        cursoDiv.appendChild(pId);
 
-        // Tercer año, Quinto semestre
-        { id: "ENFA103-20", nombre: "CUIDADOS DE ENFERMERÍA DE PERSONAS ADULTAS Y MAYORES EN EL PROCESO DE SALUD Y ENFERMEDAD", semestre: 5, creditos: 0, prerequisitos: ["ENFA098-20", "FARM099-20"], estado: "locked" },
-        { id: "ESEN125-20", nombre: "INTRODUCCIÓN A LA ENFERMERÍA CLÍNICA", semestre: 5, creditos: 0, prerequisitos: ["ENFA098-20", "FARM099-20"], estado: "locked" },
-        { id: "MEDI120-20", nombre: "ENFERMEDADES PREVALENTES DE PERSONAS ADULTAS Y MAYORES", semestre: 5, creditos: 0, prerequisitos: ["ENFA092-20", "HIPA093-24"], estado: "locked" },
-        { id: "PSIQ105-20", nombre: "ENFERMERÍA EN SALUD MENTAL Y PSIQUIATRÍA", semestre: 5, creditos: 0, prerequisitos: ["ENFA098-20", "FARM099-20"], estado: "locked" },
-        { id: "QFAR108-22", nombre: "FARMACOLOGÍA CLÍNICA PARA ENFERMERÍA", semestre: 5, creditos: 0, prerequisitos: ["FARM099-20"], estado: "locked" },
+        // Add note if it exists and is 'locked'
+        if (curso.note && estado === 'locked') {
+            const noteP = document.createElement('p');
+            noteP.classList.add('curso-note');
+            noteP.textContent = `Nota: ${curso.note}`;
+            cursoDiv.appendChild(noteP);
+        }
 
-        // Tercer año, Sexto semestre
-        { id: "ELECT114", nombre: "OPTATIVO DE ESPECIALIZACIÓN", semestre: 6, creditos: 0, prerequisitos: ["ENFA103-20", "MEDI120-20"], estado: "locked" },
-        { id: "ENFA175-20", nombre: "CUIDADOS DE ENFERMERÍA DE LA NIÑA, EL NIÑO Y ADOLESCENTES EN EL PROCESO DE SALUD Y ENFERMEDAD", semestre: 6, creditos: 0, prerequisitos: ["ENFA103-20", "QFAR108-22"], estado: "locked" },
-        { id: "ENFM170-20", nombre: "ALTERACIONES DE SALUD EN EL PROCESO DE GESTACIÓN", semestre: 6, creditos: 0, prerequisitos: ["ENFM090-20", "MEDI120-20"], estado: "locked" },
-        { id: "ESEN180-20", nombre: "HABILIDADES Y HERRAMIENTAS PARA LA ATENCIÓN DE ENFERMERÍA EN PERSONAS EN SITUACIÓN DE CRISIS", semestre: 6, creditos: 0, prerequisitos: ["ENFM090-20", "MEDI120-20"], estado: "locked" },
-        { id: "ESTD172-20", nombre: "BIOESTADÍSTICA", semestre: 6, creditos: 0, prerequisitos: ["ESTD093-20"], estado: "locked" },
-        { id: "PEDI173-23", nombre: "ENFERMEDADES PREVALENTES DE LA NIÑA, EL NIÑO Y ADOLESCENTES", semestre: 6, creditos: 0, prerequisitos: ["ENFA103-20"], estado: "locked" },
+        // Add click listener only for 'available' or 'completed' courses
+        if (estado === 'available' || estado === 'completed') {
+            cursoDiv.addEventListener('click', () => {
+                toggleCourseState(curso.id);
+            });
+        }
 
-        // Cuarto año, Septimo semestre
-        { id: "ENFA185-20", nombre: "CUIDADOS DE ENFERMERÍA A PERSONAS EN SITUACIONES DE RIESGOS Y URGENCIAS", semestre: 7, creditos: 0, prerequisitos: ["ENFA175-20", "PEDI173-23"], estado: "locked" },
-        { id: "ENFA188-20", nombre: "INVESTIGACIÓN CUALITATIVA", semestre: 7, creditos: 0, prerequisitos: ["ESTD093-20"], estado: "locked" },
-        { id: "SALP190-20", nombre: "POLÍTICAS Y SISTEMAS DE SALUD", semestre: 7, creditos: 0, prerequisitos: ["ENFA103-20"], estado: "locked" },
-
-        // Cuarto año, Octavo semestre
-        { id: "ENFA192-20", nombre: "LIDERAZGO INTEGRADOR EN LA GESTIÓN DEL CUIDADO", semestre: 8, creditos: 0, prerequisitos: ["ENFA185-20", "SALP190-20"], estado: "locked" },
-        { id: "ENFA194-20", nombre: "PROYECTO DE INVESTIGACIÓN", semestre: 8, creditos: 0, prerequisitos: ["ENFA188-20"], estado: "locked" },
-        { id: "SALP195-20", nombre: "HERRAMIENTAS DE GESTIÓN E INNOVACIÓN EN SALUD", semestre: 8, creditos: 0, prerequisitos: ["SALP190-20"], estado: "locked" },
-
-        // Quinto año, Noveno semestre
-        { id: "ELECT112", nombre: "OPTATIVO DE PROFUNDIZACIÓN I", semestre: 9, creditos: 0, prerequisitos: [], estado: "locked" },
-        { id: "ENFA204-20", nombre: "AVANCE DE INVESTIGACIÓN", semestre: 9, creditos: 0, prerequisitos: ["ENFA194-20"], estado: "locked" },
-        { id: "ENFA205-20", nombre: "GESTIÓN DEL CUIDADO EN ATENCIÓN AMBULATORIA", semestre: 9, creditos: 0, prerequisitos: [], estado: "locked", note: "Prerrequisito: Aprobación de 42 cursos hasta el 8vo semestre" },
-
-        // Quinto año, Décimo semestre
-        { id: "ELECT116", nombre: "OPTATIVO DE PROFUNDIZACIÓN II", semestre: 10, creditos: 0, prerequisitos: [], estado: "locked" },
-        { id: "ENFA207-20", nombre: "GESTIÓN DEL CUIDADO EN ATENCIÓN HOSPITALARIA", semestre: 10, creditos: 0, prerequisitos: [], estado: "locked", note: "Prerrequisito: Aprobación de 42 cursos hasta el 8vo semestre" },
-        { id: "ESEN298-20", nombre: "TRABAJO DE INVESTIGACIÓN", semestre: 10, creditos: 0, prerequisitos: ["ENFA204-20"], estado: "locked" }
-    ];
-
-    // Mapear cursos por ID para fácil acceso
-    const cursosMap = new Map(mallaEnfermeriaUACh.map(curso => [curso.id, curso]));
-
-    // Función para verificar si un curso está completado
-    function isCursoCompleted(cursoId) {
-        const curso = cursosMap.get(cursoId);
-        return curso && curso.estado === 'completed';
+        return cursoDiv;
     }
 
-    // Función para verificar si los prerrequisitos de un curso están satisfechos
+    function renderMalla() {
+        mallaGrid.innerHTML = ''; // Clear previous content
+
+        for (const anoKey in mallaEnfermeriaUACh) {
+            const anoData = mallaEnfermeriaUACh[anoKey];
+            const anoContainer = document.createElement('div');
+            anoContainer.classList.add('ano-container');
+
+            const anoTitle = document.createElement('h2');
+            anoTitle.textContent = `${anoKey} Año`;
+            anoContainer.appendChild(anoTitle);
+
+            const semestresAnoDiv = document.createElement('div');
+            semestresAnoDiv.classList.add('semestres-ano');
+
+            for (const semestreKey in anoData) {
+                const cursosSemestre = anoData[semestreKey];
+                const semestreColumna = document.createElement('div');
+                semestreColumna.classList.add('semestre-columna');
+
+                const semestreTitle = document.createElement('h3');
+                semestreTitle.textContent = semestreKey;
+                semestreColumna.appendChild(semestreTitle);
+
+                cursosSemestre.forEach(curso => {
+                    // Get the current state from courseStates or default to locked if not found
+                    const estado = courseStates[curso.id] || 'locked';
+                    const cursoElement = createCourseElement(curso, estado);
+                    semestreColumna.appendChild(cursoElement);
+                });
+                semestresAnoDiv.appendChild(semestreColumna);
+            }
+            anoContainer.appendChild(semestresAnoDiv);
+            mallaGrid.appendChild(anoContainer);
+        }
+        updateAllCourseStates(); // Ensure all states are correctly updated after rendering
+    }
+
+    function updateAllCourseStates() {
+        let changed = false;
+        // First, check for courses with no prerequisites or those initially 'available'
+        for (const anoKey in mallaEnfermeriaUACh) {
+            for (const semestreKey in mallaEnfermeriaUACh[anoKey]) {
+                mallaEnfermeriaUACh[anoKey][semestreKey].forEach(curso => {
+                    if (!courseStates[curso.id]) { // Initialize if not set
+                        courseStates[curso.id] = 'locked';
+                        changed = true;
+                    }
+                });
+            }
+        }
+
+        // Iterate until no more changes are made (to handle chains of prerequisites)
+        let anyChangeThisIteration;
+        do {
+            anyChangeThisIteration = false;
+            for (const anoKey in mallaEnfermeriaUACh) {
+                for (const semestreKey in mallaEnfermeriaUACh[anoKey]) {
+                    mallaEnfermeriaUACh[anoKey][semestreKey].forEach(curso => {
+                        if (courseStates[curso.id] !== 'completed') {
+                            if (arePrereqsMet(curso)) {
+                                if (courseStates[curso.id] !== 'available') {
+                                    courseStates[curso.id] = 'available';
+                                    anyChangeThisIteration = true;
+                                    changed = true;
+                                }
+                            } else {
+                                if (courseStates[curso.id] !== 'locked') {
+                                    courseStates[curso.id] = 'locked';
+                                    anyChangeThisIteration = true;
+                                    changed = true;
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        } while (anyChangeThisIteration);
+
+        if (changed) {
+            saveCourseStates(); // Save states only if there was a change
+            // Re-render the malla to reflect the state changes and update click listeners
+            renderMalla();
+        }
+    }
+
     function arePrereqsMet(curso) {
         if (!curso.prerequisitos || curso.prerequisitos.length === 0) {
-            return true; // No tiene prerrequisitos
+            return true; // No prerequisites, so they are met
         }
-        return curso.prerequisitos.every(prereqId => isCursoCompleted(prereqId));
+        return curso.prerequisitos.every(prereqId => courseStates[prereqId] === 'completed');
     }
 
-    // Función para actualizar el estado de todos los cursos (locked, available)
-    function updateAllCourseStates() {
-        mallaEnfermeriaUACh.forEach(curso => {
-            // Solo actualiza el estado si no está ya completado.
-            // Si estaba completado, mantenemos ese estado a menos que se "descomplete" manualmente.
-            if (curso.estado !== 'completed') { 
-                if (arePrereqsMet(curso)) {
-                    curso.estado = 'available';
-                } else {
-                    curso.estado = 'locked';
-                }
-            }
-            
-            // Actualizar la clase CSS en el DOM
-            const cursoDiv = document.getElementById(curso.id);
-            if (cursoDiv) {
-                // Eliminar todas las clases de estado antes de añadir la correcta
-                cursoDiv.classList.remove('locked', 'available', 'completed', 'strikethrough');
-                cursoDiv.classList.add(curso.estado);
-
-                // Controlar clickeabilidad
-                cursoDiv.style.pointerEvents = (curso.estado === 'locked') ? 'none' : 'auto';
-
-                // Añadir/quitar tachado visual si es completado
-                if (curso.estado === 'completed') {
-                    cursoDiv.classList.add('strikethrough');
-                }
-            }
-        });
+    function toggleCourseState(cursoId) {
+        if (courseStates[cursoId] === 'available') {
+            courseStates[cursoId] = 'completed';
+        } else if (courseStates[cursoId] === 'completed') {
+            courseStates[cursoId] = 'available'; // Or 'locked' if you prefer clicking completed to lock it
+        }
         saveCourseStates();
+        updateAllCourseStates(); // Recalculate states for all courses
     }
 
-    // Función para cambiar el estado de un curso al hacer clic
-    function toggleCursoEstado(cursoId) {
-        const curso = cursosMap.get(cursoId);
-        if (curso) {
-            if (curso.estado === 'completed') {
-                curso.estado = 'available'; // Lo "descompleta" y lo vuelve disponible (si cumple prerequisitos) o bloqueado
-            } else if (curso.estado === 'available') {
-                curso.estado = 'completed'; // Lo marca como completado
-            }
-            updateAllCourseStates(); // Recalcula el estado de todos los cursos
-        }
-    }
-
-    // Almacenar el estado de los cursos en localStorage para persistencia
     function saveCourseStates() {
-        const statesToSave = mallaEnfermeriaUACh.map(c => ({ id: c.id, estado: c.estado }));
-        localStorage.setItem('mallaEnfermeriaUAChEstado', JSON.stringify(statesToSave));
+        localStorage.setItem('mallaCourseStates', JSON.stringify(courseStates));
     }
 
     function loadCourseStates() {
-        const savedStates = localStorage.getItem('mallaEnfermeriaUAChEstado');
-        if (savedStates) {
-            const parsedStates = JSON.parse(savedStates);
-            parsedStates.forEach(savedCourse => {
-                const course = cursosMap.get(savedCourse.id);
-                if (course) {
-                    course.estado = savedCourse.estado; // Carga el estado guardado
-                }
-            });
-        }
+        const savedStates = localStorage.getItem('mallaCourseStates');
+        return savedStates ? JSON.parse(savedStates) : {};
     }
 
-    // **Paso 2: Generar Años, Semestres y Cursos en el DOM**
-    const anos = Math.ceil(Math.max(...mallaEnfermeriaUACh.map(curso => curso.semestre)) / 2); // Calcula el número de años
-
-    const romanNumerals = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
-
-    for (let i = 1; i <= anos; i++) {
-        const anoContainer = document.createElement('div');
-        anoContainer.classList.add('ano-container');
-        anoContainer.innerHTML = `<h2>Año ${romanNumerals[i]}</h2>`; // Título del Año
-
-        const semestresAno = document.createElement('div');
-        semestresAno.classList.add('semestres-ano'); // Contenedor para los dos semestres del año
-
-        // Primer semestre del año (impar)
-        const semestre1Num = (i * 2) - 1;
-        const semestre1Columna = document.createElement('div');
-        semestre1Columna.classList.add('semestre-columna');
-        semestre1Columna.innerHTML = `<h3>Semestre ${romanNumerals[semestre1Num]}</h3>`;
-        mallaEnfermeriaUACh.filter(curso => curso.semestre === semestre1Num)
-            .sort((a, b) => a.nombre.localeCompare(b.nombre))
-            .forEach(curso => {
-                const cursoDiv = document.createElement('div');
-                cursoDiv.id = curso.id;
-                cursoDiv.classList.add('curso'); // Estado inicial se añadirá al final
-                cursoDiv.innerHTML = `
-                    <h4>${curso.nombre}</h4>
-                    <p class="curso-id">(${curso.id})</p>
-                    <p class="curso-creditos">Créditos: ${curso.creditos === 0 ? 'N/D' : curso.creditos}</p>
-                    ${curso.note ? `<p class="curso-note">${curso.note}</p>` : ''}
-                `;
-                cursoDiv.addEventListener('click', () => toggleCursoEstado(curso.id));
-                semestre1Columna.appendChild(cursoDiv);
-            });
-        if (mallaEnfermeriaUACh.filter(curso => curso.semestre === semestre1Num).length > 0) {
-            semestresAno.appendChild(semestre1Columna);
-        }
-        
-
-        // Segundo semestre del año (par)
-        const semestre2Num = i * 2;
-        const semestre2Columna = document.createElement('div');
-        semestre2Columna.classList.add('semestre-columna');
-        semestre2Columna.innerHTML = `<h3>Semestre ${romanNumerals[semestre2Num]}</h3>`;
-        mallaEnfermeriaUACh.filter(curso => curso.semestre === semestre2Num)
-            .sort((a, b) => a.nombre.localeCompare(b.nombre))
-            .forEach(curso => {
-                const cursoDiv = document.createElement('div');
-                cursoDiv.id = curso.id;
-                cursoDiv.classList.add('curso'); // Estado inicial se añadirá al final
-                cursoDiv.innerHTML = `
-                    <h4>${curso.nombre}</h4>
-                    <p class="curso-id">(${curso.id})</p>
-                    <p class="curso-creditos">Créditos: ${curso.creditos === 0 ? 'N/D' : curso.creditos}</p>
-                    ${curso.note ? `<p class="curso-note">${curso.note}</p>` : ''}
-                `;
-                cursoDiv.addEventListener('click', () => toggleCursoEstado(curso.id));
-                semestre2Columna.appendChild(cursoDiv);
-            });
-        if (mallaEnfermeriaUACh.filter(curso => curso.semestre === semestre2Num).length > 0) {
-            semestresAno.appendChild(semestre2Columna);
-        }
-
-        anoContainer.appendChild(semestresAno);
-        mallaGrid.appendChild(anoContainer);
-    }
-
-    // Cargar estados guardados, actualizar todos los estados (disponibles/bloqueados) y renderizar
-    loadCourseStates();
-    updateAllCourseStates(); // Esto establecerá el estado 'available' o 'locked' inicialmente
+    // Inicializar y renderizar la malla
+    renderMalla(); // Initial render based on loaded states
+    updateAllCourseStates(); // First pass to set initial 'available' courses
 });
